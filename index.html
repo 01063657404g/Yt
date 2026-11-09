@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>نماذج ببساطة الإضافية</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@600;700;800&display=swap">
+<style>
+:root{color-scheme:light}body{margin:0}[hidden]{display:none!important}
+/* Layout: RTL one-column app. Home = hero slab + grid of 3D model tiles. Exam = sticky timer bar, one question slab with watermark, number grid. Result = score slab + filterable review. */
+:root{
+  --bg:#EDF1F7; --surface:#FFFFFF; --ink:#13233B; --muted:#56667F; --line:#D5DDEA;
+  --edge1:#D3DCEA; --edge2:#C3CFE2; --edge3:#B3C2DA; --shadow:rgba(19,35,59,.34);
+  --brand:#1B4F9C; --brand-deep:#113A78; --brand-soft:#E3ECF9;
+  --gold:#B8851F; --gold-soft:#FBF2DC;
+  --good:#1E8A57; --good-soft:#E4F4EB; --bad:#C0392B; --bad-soft:#FBEAE7;
+  --wa:#1FAF5A; --wa-deep:#13803F;
+  --font-display:"Noto Kufi Arabic",Tahoma,sans-serif;
+  --font-body:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.75;
+  padding-block:16px 110px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:980px;margin-inline:auto}
+h1,h2,h3,p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+/* ---------- 3D slab ---------- */
+.slab{
+  position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line);border-radius:20px;
+  box-shadow:0 1px 0 rgba(255,255,255,.95) inset,0 2px 0 var(--edge1),0 4px 0 var(--edge2),0 6px 0 var(--edge3),0 24px 30px -14px var(--shadow);
+}
+.wm{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;pointer-events:none;overflow:hidden;z-index:0}
+.wm span{display:grid;place-items:center;font-family:var(--font-display);font-weight:800;font-size:clamp(22px,4.6vw,34px);color:var(--brand);opacity:.07;transform:rotate(-18deg);white-space:nowrap}
+.in{position:relative;z-index:1}
+
+/* ---------- header ---------- */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:6px 4px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{filter:drop-shadow(0 4px 0 #0C2C5C)}
+.bn{font-family:var(--font-display);font-weight:800;font-size:26px;line-height:1.1;color:var(--brand-deep);display:block}
+.bs{font-size:13px;color:var(--muted)}
+.chipwa{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#fff;background:var(--wa);border-radius:12px;padding:8px 14px;font-weight:600;font-size:14px;box-shadow:0 4px 0 var(--wa-deep)}
+.chipwa:active{transform:translateY(3px);box-shadow:0 1px 0 var(--wa-deep)}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:14px;padding:12px 22px;font-weight:700;cursor:pointer;background:var(--brand);color:#fff;box-shadow:0 5px 0 var(--brand-deep),0 12px 16px -8px rgba(17,58,120,.55);transition:transform .08s,box-shadow .08s}
+.btn:hover{background:#1E57AC}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--brand-deep)}
+.btn.ghost{background:#fff;color:var(--brand-deep);border:1px solid var(--line);box-shadow:0 5px 0 var(--edge2),0 12px 16px -10px var(--shadow)}
+.btn.ghost:hover{background:var(--brand-soft)}
+.btn.ghost:active{box-shadow:0 1px 0 var(--edge2)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.btn.danger{background:var(--bad);box-shadow:0 5px 0 #8E2A20}
+
+/* ---------- home ---------- */
+.hero{padding:clamp(20px,4vw,36px);margin-block:18px 20px;background:linear-gradient(135deg,#fff 0%,#F3F7FE 100%)}
+.eyebrow{display:inline-block;font-weight:700;font-size:13px;color:var(--gold);background:var(--gold-soft);border-radius:999px;padding:2px 12px}
+.hero h1{font-family:var(--font-display);font-weight:800;font-size:clamp(26px,5.4vw,42px);line-height:1.4;margin-block:10px 8px;color:var(--brand-deep);text-wrap:balance}
+.hero p.lead{color:var(--muted);max-width:60ch}
+.facts{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+.fact{background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px 16px;box-shadow:0 4px 0 var(--edge2);display:grid;line-height:1.35;min-width:96px}
+.fact b{font-family:var(--font-display);font-size:22px;color:var(--brand);font-variant-numeric:tabular-nums}
+.fact span{font-size:13px;color:var(--muted)}
+.credit{margin-top:18px;font-weight:600;color:var(--brand-deep)}
+.rules{padding:20px clamp(18px,3vw,28px);margin-bottom:24px}
+.rules h2{font-family:var(--font-display);font-size:19px;color:var(--brand-deep);margin-bottom:8px}
+.rules ul{margin:0;padding-inline-start:20px}
+.rules li{margin-block:4px}
+.sech{font-family:var(--font-display);font-size:21px;color:var(--brand-deep);margin-block:6px 14px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;padding-bottom:10px}
+.tile{
+  position:relative;display:grid;gap:4px;text-align:start;cursor:pointer;padding:18px 18px 16px;border-radius:20px;border:1px solid var(--line);background:#fff;min-width:0;
+  transform:perspective(900px) rotateX(4deg) rotateY(-3deg);transform-origin:50% 100%;
+  box-shadow:0 1px 0 #fff inset,0 3px 0 var(--edge1),0 6px 0 var(--edge2),0 9px 0 var(--edge3),0 28px 30px -14px var(--shadow);
+  transition:transform .18s,box-shadow .18s;
+}
+.tile:hover{transform:perspective(900px) rotateX(0) rotateY(0) translateY(-6px)}
+.tile:active{transform:perspective(900px) translateY(2px)}
+.tile .num{width:58px;height:58px;border-radius:15px;display:grid;place-items:center;background:var(--brand);color:#fff;font-family:var(--font-display);font-weight:800;font-size:28px;box-shadow:0 5px 0 var(--brand-deep),0 10px 14px -6px rgba(17,58,120,.5);margin-bottom:10px}
+.tile .tn{font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--ink)}
+.tile .tm{color:var(--muted);font-size:14px}
+.tile .best{font-size:13px;color:var(--gold);font-weight:700;min-height:22px;font-variant-numeric:tabular-nums}
+.tile .go{margin-top:6px;display:inline-flex;align-self:start;background:var(--brand-soft);color:var(--brand-deep);font-weight:700;border-radius:10px;padding:5px 14px;box-shadow:0 3px 0 #C7D7EE}
+
+/* ---------- exam ---------- */
+.xbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;padding:12px 18px 14px;border-radius:0 0 18px 18px;margin-bottom:18px}
+.xrow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.xt b{font-family:var(--font-display);font-size:18px;color:var(--brand-deep);display:block;line-height:1.4}
+.xt span{font-size:13px;color:var(--muted)}
+.timer{font-family:var(--font-display);font-weight:800;font-size:28px;font-variant-numeric:tabular-nums;color:var(--brand-deep);background:var(--brand-soft);border-radius:12px;padding:2px 14px;box-shadow:0 3px 0 #C7D7EE;direction:ltr}
+.timer.warn{color:#fff;background:var(--bad);box-shadow:0 3px 0 #8E2A20}
+.tbar{height:8px;border-radius:99px;background:#DCE5F2;margin-top:10px;overflow:hidden}
+.tbar i{display:block;height:100%;width:100%;background:var(--brand);border-radius:99px;transition:width .25s linear}
+.timer.warn ~ .tbar i,.xbar.warn .tbar i{background:var(--bad)}
+.qcard{padding:clamp(18px,3.4vw,32px);min-height:380px}
+.qno{display:inline-block;font-weight:700;font-size:14px;color:var(--brand-deep);background:var(--brand-soft);border-radius:10px;padding:2px 12px;font-variant-numeric:tabular-nums}
+.qt{font-family:var(--font-body);font-weight:600;font-size:clamp(18px,3.3vw,23px);line-height:1.9;margin-block:14px 18px;text-wrap:pretty}
+.opts{display:grid;gap:14px}
+.opt{display:flex;gap:12px;align-items:center;width:100%;text-align:start;padding:13px 14px;border-radius:15px;border:1px solid var(--line);background:#fff;cursor:pointer;min-width:0;
+  box-shadow:0 5px 0 var(--edge2),0 10px 14px -8px var(--shadow);transition:transform .08s,box-shadow .08s,background .15s}
+.opt:hover{background:var(--brand-soft)}
+.opt:active{transform:translateY(4px);box-shadow:0 1px 0 var(--edge2)}
+.opt[aria-pressed="true"]{background:var(--brand);border-color:var(--brand-deep);color:#fff;box-shadow:0 5px 0 var(--brand-deep),0 10px 14px -8px rgba(17,58,120,.55)}
+.opt .let{flex:none;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand-deep);font-family:var(--font-display);font-weight:700}
+.opt[aria-pressed="true"] .let{background:#fff}
+.opt .ot{min-width:0;overflow-wrap:anywhere}
+.navrow{display:flex;gap:14px;justify-content:space-between;margin-block:24px 22px}
+.navgrid{padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:10px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:11px;height:42px;cursor:pointer;font-weight:700;font-variant-numeric:tabular-nums;box-shadow:0 3px 0 var(--edge2);position:relative;z-index:1}
+.chip:active{transform:translateY(2px);box-shadow:0 1px 0 var(--edge2)}
+.chip.done{background:var(--brand-soft);border-color:#A9C0E6;color:var(--brand-deep)}
+.chip.cur{background:var(--brand);color:#fff;border-color:var(--brand-deep);box-shadow:0 3px 0 var(--brand-deep)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);padding:0 16px 14px;position:relative;z-index:1}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-inline-end:6px;border:1px solid var(--line);background:#fff}
+.legend i.d{background:var(--brand-soft);border-color:#A9C0E6}.legend i.c{background:var(--brand);border-color:var(--brand-deep)}
+.xfoot{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;margin-top:22px}
+.tog{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);cursor:pointer}
+.tog input{width:20px;height:20px;accent-color:var(--brand)}
+
+/* ---------- instant correction ---------- */
+.opt.ok,.opt.ok[aria-pressed="true"]{background:var(--good-soft);border-color:#7DBE98;color:var(--ink);box-shadow:0 5px 0 #6FB08B}
+.opt.no,.opt.no[aria-pressed="true"]{background:var(--bad-soft);border-color:#E3A59C;color:var(--ink);box-shadow:0 5px 0 #D18C82}
+.opt.ok .let{background:var(--good);color:#fff}
+.opt.no .let{background:var(--bad);color:#fff}
+.opt.lock{cursor:default}
+.opt.lock:active{transform:none}
+.opt.lock:not(.ok):not(.no){opacity:.62;box-shadow:0 3px 0 var(--edge2)}
+.opt .mk{flex:none;margin-inline-start:auto;font-size:12px;font-weight:700;border-radius:8px;padding:1px 10px;color:#fff}
+.opt.ok .mk{background:var(--good)}.opt.no .mk{background:var(--bad)}
+.expl{margin-top:20px;border-radius:15px;padding:14px 16px;border:1px solid var(--line);background:var(--brand-soft)}
+.expl.ok{background:var(--good-soft);border-color:#98D1B1}
+.expl.no{background:var(--bad-soft);border-color:#E3A59C}
+.expl b{display:block;font-family:var(--font-display);font-size:16px;margin-bottom:2px}
+.expl.ok b{color:var(--good)}.expl.no b{color:var(--bad)}
+.expl p{margin:0;font-size:15px}
+.chip.ok{background:var(--good-soft);border-color:#7DBE98;color:var(--good)}
+.chip.bad{background:var(--bad-soft);border-color:#E3A59C;color:var(--bad)}
+.chip.cur.ok,.chip.cur.bad{background:var(--brand);color:#fff;border-color:var(--brand-deep)}
+.modeslab{padding:16px 20px;margin-bottom:24px}
+.modeslab label{display:flex;gap:12px;align-items:flex-start;cursor:pointer}
+.modeslab input{width:22px;height:22px;margin-top:5px;accent-color:var(--brand);flex:none}
+.modeslab b{font-family:var(--font-display);color:var(--brand-deep);display:block}
+.modeslab span{color:var(--muted);font-size:14px}
+.rev .exp{margin:14px 0 0;padding:10px 14px;border-radius:12px;background:var(--brand-soft);font-size:15px}
+.rev .exp b{color:var(--brand-deep)}
+/* ---------- modal ---------- */
+.modal{position:fixed;inset:0;z-index:30;background:rgba(19,35,59,.55);display:grid;place-items:center;padding:20px}
+.modal .box{max-width:420px;width:100%;padding:24px}
+.modal h3{font-family:var(--font-display);color:var(--brand-deep);margin-bottom:8px}
+.modal .acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+
+/* ---------- result ---------- */
+.score{padding:clamp(20px,4vw,34px);margin-block:16px 22px;text-align:center}
+.score .big{font-family:var(--font-display);font-weight:800;font-size:clamp(56px,14vw,96px);line-height:1.1;color:var(--brand);font-variant-numeric:tabular-nums}
+.score .big small{font-size:.38em;color:var(--muted);font-weight:700}
+.rate{display:inline-block;margin-top:6px;font-family:var(--font-display);font-weight:700;font-size:20px;color:#fff;background:var(--brand);border-radius:12px;padding:4px 20px;box-shadow:0 4px 0 var(--brand-deep)}
+.note{margin-top:12px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin-top:22px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;box-shadow:0 4px 0 var(--edge2)}
+.stat b{display:block;font-family:var(--font-display);font-size:24px;font-variant-numeric:tabular-nums}
+.rev .note{margin:12px 0 0;color:var(--muted);font-size:14px}
+.stat span{font-size:13px;color:var(--muted)}
+.stat.g b{color:var(--good)}.stat.r b{color:var(--bad)}.stat.y b{color:var(--gold)}
+.acts2{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:24px}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-block:6px 18px}
+.rev{padding:clamp(16px,3vw,26px);margin-bottom:22px}
+.rq{display:flex;gap:12px;align-items:flex-start;font-weight:600;font-size:17px;line-height:1.85}
+.rn{flex:none;min-width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand-deep);font-weight:700;font-variant-numeric:tabular-nums}
+.rev.ok .rn{background:var(--good);color:#fff}.rev.bad .rn{background:var(--bad);color:#fff}.rev.skip .rn{background:var(--gold);color:#fff}
+.ros{display:grid;gap:10px;margin-top:14px}
+.ro{display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:12px;background:#fff;padding:9px 12px;min-width:0}
+.ro .rt{min-width:0;overflow-wrap:anywhere}
+.ro.right{background:var(--good-soft);border-color:#98D1B1}
+.ro.wrong{background:var(--bad-soft);border-color:#E3A59C}
+.tag{flex:none;font-size:12px;font-weight:700;border-radius:8px;padding:1px 10px;color:#fff}
+.tag.g{background:var(--good)}.tag.r{background:var(--bad)}
+
+/* ---------- footer + whatsapp ---------- */
+.foot{margin-top:34px;padding:20px;text-align:center;color:var(--muted);font-size:14px}
+.foot b{color:var(--brand-deep)}
+.foot .num{direction:ltr;unicode-bidi:isolate;font-weight:700;color:var(--ink);user-select:all}
+.cp{margin-inline-start:8px;border:1px solid var(--line);background:#fff;border-radius:9px;padding:0 10px;font-size:13px;cursor:pointer;box-shadow:0 3px 0 var(--edge2)}
+.wa{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:#fff;background:var(--wa);font-weight:700;border-radius:999px;padding:10px 18px 10px 14px;box-shadow:0 5px 0 var(--wa-deep),0 14px 22px -8px rgba(19,128,63,.6)}
+.wa:active{transform:translateY(4px);box-shadow:0 1px 0 var(--wa-deep)}
+@media (max-width:520px){.wa span{display:none}.wa{padding:12px}.navrow .btn{flex:1}.qcard{min-height:340px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.tile{transform:none}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap" dir="rtl" lang="ar">
+
+<header class="top">
+  <div class="brand">
+    <svg class="logo" viewBox="0 0 48 48" width="46" height="46" aria-hidden="true"><rect x="2" y="2" width="44" height="44" rx="12" fill="#1B4F9C"/><text x="24" y="31" text-anchor="middle" font-family="Noto Kufi Arabic, Tahoma, sans-serif" font-size="27" font-weight="800" fill="#FFFFFF">ب</text><rect x="14" y="38" width="20" height="3" rx="1.5" fill="#E9B949"/></svg>
+    <div><span class="bn">ببساطة</span><span class="bs">صفحة ببساطة التعليمية</span></div>
+  </div>
+  <a class="chipwa" href="https://wa.me/201505191893" target="_blank" rel="noopener">تواصل عبر واتساب</a>
+</header>
+
+<!-- ================= HOME ================= -->
+<section id="home">
+  <div class="slab hero">
+    <div class="wm" aria-hidden="true"><span>ببساطة</span><span>ببساطة</span><span>ببساطة</span><span>ببساطة</span><span>ببساطة</span><span>ببساطة</span></div>
+    <div class="in">
+      <span class="eyebrow">نماذج إضافية</span>
+      <h1>محاكي اختبار المعلم المساعد</h1>
+      <p class="lead">6 نماذج جديدة في المعلومات العامة تغطي المشروعات القومية والاقتصاد والبنوك والجغرافيا والتاريخ والعلوم. مناسبة لجميع التخصصات.</p>
+      <div class="facts">
+        <div class="fact"><b>12</b><span>نموذجًا</span></div>
+        <div class="fact"><b>15</b><span>سؤالًا في النموذج</span></div>
+        <div class="fact"><b>2:30</b><span>دقيقة للنموذج</span></div>
+        <div class="fact"><b>فوري</b><span>تصحيح تلقائي وشرح</span></div>
+      </div>
+      <p class="credit">مقدم من صفحة ببساطة · إعداد مستر محمد سيد ومس نورهان إبراهيم</p>
+    </div>
+  </div>
+
+  <div class="slab rules"><div class="in">
+    <h2>قبل أن تبدأ</h2>
+    <ul>
+      <li>يبدأ عدّاد الدقيقتين والنصف فور اختيار النموذج (10 ثوانٍ للسؤال كما في الاختبار الأصلي).</li>
+      <li>اختر إجابة واحدة لكل سؤال، ويمكنك الرجوع وتغييرها قبل انتهاء الوقت.</li>
+      <li>ينتهي الاختبار عند انتهاء الوقت أو بزر «إنهاء الاختبار»، ثم تظهر نتيجتك مع الإجابات الصحيحة وشرح كل سؤال.</li>
+    </ul>
+  </div></div>
+
+  <div class="slab modeslab"><div class="in">
+    <label for="instantToggle"><input type="checkbox" id="instantToggle" checked>
+      <div><b>وضع التدريب: تصحيح فوري مع الشرح</b><span>تظهر الإجابة الصحيحة وشرحها بعد كل سؤال مباشرة، وتُقفل الإجابة. أوقفه لتجربة الاختبار كما في القاعة.</span></div></label>
+  </div></div>
+
+  <h2 class="sech">اختر النموذج</h2>
+  <div class="tiles" id="tiles"></div>
+</section>
+
+<!-- ================= EXAM ================= -->
+<section id="exam" hidden>
+  <div class="slab xbar" id="xbar">
+    <div class="in">
+      <div class="xrow">
+        <div class="xt"><b id="examTitle"></b><span>المعلومات العامة</span></div>
+        <div class="timer" id="timerBox"><span id="timer">02:30</span></div>
+      </div>
+      <div class="tbar"><i id="tfill"></i></div>
+    </div>
+  </div>
+
+  <div class="slab qcard" id="qcard"></div>
+
+  <div class="navrow">
+    <button class="btn ghost" id="prev" type="button">السؤال السابق</button>
+    <button class="btn" id="next" type="button">السؤال التالي</button>
+  </div>
+
+  <div class="slab">
+    <div class="wm" aria-hidden="true"><span>ببساطة</span><span>ببساطة</span><span>ببساطة</span></div>
+    <div class="navgrid" id="navgrid"></div>
+    <div class="legend"><span><i class="d"></i>تمت الإجابة</span><span><i class="c"></i>السؤال الحالي</span><span><i></i>لم يُجب</span></div>
+  </div>
+
+  <div class="xfoot">
+    <label class="tog" id="autoLbl"><input type="checkbox" id="autoToggle" checked> الانتقال التلقائي بعد اختيار الإجابة</label>
+    <button class="btn danger" id="finishBtn" type="button">إنهاء الاختبار</button>
+  </div>
+</section>
+
+<!-- ================= RESULT ================= -->
+<section id="result" hidden>
+  <div class="slab score">
+    <div class="wm" aria-hidden="true"><span>ببساطة</span><span>ببساطة</span><span>ببساطة</span><span>ببساطة</span><span>ببساطة</span><span>ببساطة</span></div>
+    <div class="in">
+      <div id="resTitle" class="bs"></div>
+      <div class="big"><span id="resScore">0</span><small> / <span id="resTotal">30</span></small></div>
+      <div class="rate" id="resRate"></div>
+      <p class="note" id="resNote"></p>
+      <div class="stats" id="resStats"></div>
+      <div class="acts2">
+        <button class="btn" id="retry" type="button">إعادة النموذج</button>
+        <button class="btn ghost" id="toHome" type="button">كل النماذج</button>
+      </div>
+    </div>
+  </div>
+  <h2 class="sech">مراجعة الإجابات</h2>
+  <div class="filters" id="filters">
+    <button class="btn ghost" data-f="all" type="button">الكل</button>
+    <button class="btn ghost" data-f="bad" type="button">الخاطئة</button>
+    <button class="btn ghost" data-f="skip" type="button">بدون إجابة</button>
+  </div>
+  <div id="review"></div>
+</section>
+
+<footer class="slab foot"><div class="in">
+  <p><b>مقدم من صفحة ببساطة</b> · إعداد مستر محمد سيد ومس نورهان إبراهيم</p>
+  <p>للتواصل عبر واتساب: <span class="num">01505191893</span><button class="cp" id="cpBtn" type="button">نسخ الرقم</button></p>
+  <p>الاختبار تدريبي للمراجعة ولا يمثل الاختبار الرسمي. أسئلة هذه الصفحة من إعداد ببساطة، بناءً على موضوعات ذكرها المتقدمون للاختبار.</p>
+</div></footer>
+
+<a class="wa" href="https://wa.me/201505191893" target="_blank" rel="noopener" aria-label="تواصل عبر واتساب">
+  <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M12 2.5a9.3 9.3 0 0 0-8 14l-1.3 4.8 4.9-1.3A9.3 9.3 0 1 0 12 2.5z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.2 7.8c.2 3 3 5.9 6 6.1l1.3-1.3-2-1.2-.9.7a4.4 4.4 0 0 1-2.2-2.2l.7-.9-1.2-2z" fill="#fff"/></svg>
+  <span>واتساب</span>
+</a>
+
+<div class="modal" id="modal" hidden>
+  <div class="slab box" role="dialog" aria-modal="true" aria-labelledby="mTitle"><div class="in">
+    <h3 id="mTitle">إنهاء الاختبار؟</h3>
+    <p id="mMsg"></p>
+    <div class="acts">
+      <button class="btn ghost" id="mBack" type="button">متابعة الاختبار</button>
+      <button class="btn danger" id="mOk" type="button">إنهاء وعرض النتيجة</button>
+    </div>
+  </div></div>
+</div>
+
+</div>
+
+<script>
+/*DATA*/
+var MODELS=[[["البنك المفوَّض قانونًا بإصدار النقد (طبع الأوراق النقدية) في مصر:", ["البنك المركزي المصري", "البنك الأهلي المصري", "بنك مصر", "بنك القاهرة"]], ["سعر الفائدة هو:", ["تكلفة اقتراض المال أو عائد إيداعه", "سعر صرف الدولار", "قيمة الضريبة السنوية", "ثمن الذهب"]], ["الأمن السيبراني يعني:", ["حماية الأنظمة والشبكات والبيانات من الهجمات الإلكترونية", "سرعة الإنترنت", "تصنيع الحواسيب", "بيع البرامج"]], ["الدولة المشاركة مع مصر في بناء محطة الضبعة النووية:", ["روسيا", "اليابان", "كندا", "البرازيل"]], ["تقع بحيرة المنزلة في:", ["شمال شرق الدلتا", "جنوب الوادي", "الصحراء الغربية", "وسط سيناء"]], ["تقع مدينة السادات في محافظة:", ["المنوفية", "الغربية", "الجيزة", "البحيرة"]], ["تقع محمية رأس محمد في:", ["جنوب سيناء", "مطروح", "الفيوم", "البحر الأحمر جنوبًا"]], ["بدأت الحملة الفرنسية على مصر عام:", ["1798", "1805", "1882", "1914"]], ["وُقعت معاهدة السلام بين مصر وإسرائيل عام:", ["1979", "1973", "1967", "1982"]], ["قامت ثورة 25 يناير عام:", ["2011", "2005", "2013", "2014"]], ["عاصمة سلطنة عمان:", ["مسقط", "صلالة", "نزوى", "صور"]], ["أكبر جزيرة في العالم:", ["جرينلاند", "مدغشقر", "بورنيو", "أيسلندا"]], ["أقرب نجم إلى الأرض:", ["الشمس", "ألفا قنطورس", "الشعرى", "القمر"]], ["أكبر عظمة في جسم الإنسان:", ["عظمة الفخذ", "عظمة الساق", "عظمة العضد", "عظمة الجمجمة"]], ["يُحتفل بعيد الفلاح في مصر يوم:", ["9 سبتمبر", "1 مايو", "21 مارس", "25 يناير"]]], [["يقصد بالشمول المالي:", ["إتاحة الخدمات المالية للأفراد والمؤسسات بتكلفة مناسبة", "منع التعامل بالنقد نهائيًا", "زيادة الضرائب على الجميع", "تحويل كل البنوك إلى بنوك حكومية"]], ["البورصة هي:", ["سوق لتداول الأسهم والسندات", "مصنع للنقود", "مصرف للقروض فقط", "هيئة لتحصيل الضرائب"]], ["التصيد الاحتيالي (Phishing) هو:", ["رسائل أو مواقع مزيفة لسرقة البيانات الشخصية", "برنامج لتسريع الجهاز", "نوع من الألعاب", "طريقة لحفظ الملفات"]], ["تنتج الطاقة النووية من انشطار ذرات:", ["اليورانيوم", "الكربون", "الحديد", "الأكسجين"]], ["تقع واحة البحرية في محافظة:", ["الجيزة", "مطروح", "الفيوم", "أسوان"]], ["تتبع مدينة الشروق محافظة:", ["القاهرة", "الجيزة", "القليوبية", "الإسماعيلية"]], ["تقع مدينة دهب على خليج:", ["العقبة", "السويس", "سرت", "عدن"]], ["عُثر على حجر رشيد عام:", ["1799", "1822", "1869", "1952"]], ["استردت مصر طابا عام:", ["1989", "1982", "1979", "1973"]], ["قامت ثورة 30 يونيو عام:", ["2013", "2011", "2014", "2012"]], ["عاصمة اليمن:", ["صنعاء", "عدن", "تعز", "الحديدة"]], ["عدد دول الاتحاد الأوروبي حاليًا:", ["27", "25", "28", "30"]], ["الكوكب المشهور بحلقاته الواضحة:", ["زحل", "المريخ", "عطارد", "الزهرة"]], ["تحتوي خلايا الدم الحمراء على:", ["الهيموجلوبين", "الأنسولين", "الكولاجين", "الكيراتين"]], ["اليوم العالمي للصحة:", ["7 أبريل", "8 مارس", "5 يونيو", "1 مايو"]]], [["الناتج المحلي الإجمالي هو:", ["قيمة السلع والخدمات النهائية المنتجة داخل الدولة خلال فترة زمنية", "عدد سكان الدولة", "إجمالي ديون الدولة", "قيمة الواردات فقط"]], ["من مصادر النقد الأجنبي في مصر:", ["قناة السويس والسياحة وتحويلات العاملين بالخارج", "الضرائب المحلية فقط", "رسوم المدارس", "بيع الأراضي الزراعية فقط"]], ["أقوى كلمة مرور من بين التالي:", ["تجمع حروفًا وأرقامًا ورموزًا بطول مناسب", "اسمك وتاريخ ميلادك", "123456", "كلمة قصيرة من الحروف فقط"]], ["تشتهر منطقة الزعفرانة بإنتاج:", ["طاقة الرياح", "الفحم", "الذهب", "البترول الخام"]], ["تقع واحة الداخلة في محافظة:", ["الوادي الجديد", "الفيوم", "مطروح", "المنيا"]], ["تقع مدينة العين السخنة في محافظة:", ["السويس", "البحر الأحمر", "جنوب سيناء", "الإسماعيلية"]], ["يفصل شبه جزيرة سيناء عن بقية أفريقيا:", ["قناة السويس", "نهر النيل", "بحيرة ناصر", "خليج العقبة"]], ["قاد ثورة 1919 الزعيم:", ["سعد زغلول", "مصطفى كامل", "أحمد عرابي", "جمال عبد الناصر"]], ["الخط الدفاعي الذي اقتحمته القوات المصرية في حرب أكتوبر 1973:", ["خط بارليف", "خط ماجينو", "خط زيجفريد", "خط الدفاع الأخضر"]], ["صدر أول دستور مصري عام:", ["1923", "1952", "1956", "1971"]], ["عاصمة إثيوبيا:", ["أديس أبابا", "نيروبي", "كمبالا", "الخرطوم"]], ["أخفض نقطة على سطح اليابسة:", ["البحر الميت", "بحيرة فيكتوريا", "منخفض القطارة", "بحر قزوين"]], ["الرمز الكيميائي للحديد:", ["Fe", "Au", "Na", "Cu"]], ["لا ينتقل الصوت في:", ["الفراغ", "الماء", "الهواء", "الحديد"]], ["اليوم الدولي للتعليم:", ["24 يناير", "5 أكتوبر", "8 سبتمبر", "10 ديسمبر"]]], [["الميزان التجاري هو الفرق بين قيمة:", ["الصادرات والواردات", "الأجور والأسعار", "الضرائب والدعم", "الإيرادات والمصروفات الحكومية"]], ["الادخار هو:", ["الجزء من الدخل الذي لا يُنفَق على الاستهلاك الحالي", "إنفاق الدخل كله", "الاقتراض من البنوك", "دفع الضرائب"]], ["الذكاء الاصطناعي هو:", ["قدرة الآلات والبرامج على محاكاة جوانب من الذكاء البشري", "جهاز تخزين", "نوع من الشاشات", "لغة كتابة المستندات"]], ["يقع سد النهضة على النيل الأزرق في:", ["إثيوبيا", "السودان", "أوغندا", "كينيا"]], ["يقع منخفض القطارة في:", ["الصحراء الغربية", "شبه جزيرة سيناء", "دلتا النيل", "الصحراء الشرقية"]], ["تقع مدينة برج العرب في محافظة:", ["الإسكندرية", "مطروح", "البحيرة", "كفر الشيخ"]], ["عاصمة محافظة جنوب سيناء:", ["الطور", "شرم الشيخ", "دهب", "نويبع"]], ["وقع العدوان الثلاثي على مصر عام:", ["1956", "1948", "1967", "1973"]], ["الاسم الرمزي لخطة العبور في حرب أكتوبر 1973:", ["عملية بدر", "عملية الفجر", "عملية النصر", "عملية سيناء"]], ["افتُتحت دار الأوبرا الخديوية بالقاهرة عام:", ["1869", "1798", "1952", "1988"]], ["مقر الاتحاد الأفريقي:", ["أديس أبابا", "القاهرة", "أبوجا", "نيروبي"]], ["أطول نهر في أوروبا:", ["الفولغا", "الدانوب", "الراين", "السين"]], ["المركب الكيميائي NaCl هو:", ["ملح الطعام", "السكر", "الجير", "الصودا الكاوية"]], ["يصدأ الحديد بسبب تفاعله مع:", ["الأكسجين والرطوبة", "النيتروجين فقط", "الهيليوم", "الضوء فقط"]], ["اليوم العالمي للطفل:", ["20 نوفمبر", "1 يونيو", "21 مارس", "9 ديسمبر"]]], [["يحدث العجز في الميزان التجاري عندما:", ["تزيد الواردات على الصادرات", "تزيد الصادرات على الواردات", "تتساوى الواردات والصادرات", "تنعدم الضرائب"]], ["من نتائج هجرة سكان الريف إلى المدن:", ["ازدحام المدن وزيادة الضغط على الخدمات", "انخفاض عدد السكان في المدن", "زيادة الرقعة الزراعية بالمدن", "قلة الحاجة إلى المواصلات"]], ["يهدف التوقيع الإلكتروني إلى:", ["توثيق المعاملات والمستندات رقميًا", "تصغير حجم الملفات", "زيادة سرعة الحاسب", "تشغيل الطابعة"]], ["يقع مفاعل أنشاص البحثي في محافظة:", ["الشرقية", "الإسكندرية", "أسوان", "الغربية"]], ["تقع مدينة السادس من أكتوبر في محافظة:", ["الجيزة", "القاهرة", "الإسكندرية", "الشرقية"]], ["يقع ميناء سفاجا على:", ["البحر الأحمر", "البحر المتوسط", "بحيرة ناصر", "خليج السويس شمالًا"]], ["تقع مدينة العريش على ساحل البحر:", ["المتوسط", "الأحمر", "الأسود", "العربي"]], ["قامت الوحدة بين مصر وسوريا عام:", ["1958", "1952", "1964", "1971"]], ["الرئيس المصري وقت حرب أكتوبر 1973:", ["أنور السادات", "جمال عبد الناصر", "حسني مبارك", "محمد نجيب"]], ["يُحتفل بعيد الجلاء في مصر في:", ["18 يونيو", "23 يوليو", "6 أكتوبر", "25 أبريل"]], ["مقر منظمة الصحة العالمية:", ["جنيف", "نيويورك", "باريس", "روما"]], ["عاصمة الصين:", ["بكين", "شنغهاي", "هونغ كونغ", "طوكيو"]], ["يتجمد الماء النقي عند:", ["صفر درجة مئوية", "10 درجات مئوية", "100 درجة مئوية", "-10 درجات مئوية"]], ["الهرمون الذي ينظم مستوى السكر في الدم:", ["الأنسولين", "الأدرينالين", "الإستروجين", "النمو"]], ["لقبت بـ «كوكب الشرق»:", ["أم كلثوم", "أسمهان", "فيروز", "ليلى مراد"]]], [["تُفرض ضريبة القيمة المضافة على:", ["السلع والخدمات", "الميراث فقط", "الرواتب فقط", "الأراضي الزراعية فقط"]], ["الوديعة المصرفية هي:", ["مبلغ يودعه العميل في البنك مقابل عائد", "قرض يأخذه العميل", "ضريبة تفرضها الدولة", "رسوم خدمة بنكية"]], ["تتيح المحفظة الإلكترونية على الهاتف المحمول:", ["إجراء المدفوعات والتحويلات إلكترونيًا", "طباعة المستندات", "تعديل الصور فقط", "تحميل الألعاب فقط"]], ["من مصادر الطاقة المتجددة:", ["الرياح والشمس والمياه", "الفحم والبترول", "الغاز الطبيعي فقط", "اليورانيوم فقط"]], ["تقع مدينة العاشر من رمضان في محافظة:", ["الشرقية", "القليوبية", "السويس", "الدقهلية"]], ["من الدول التي تجاور مصر برًا:", ["السودان", "الأردن", "المملكة العربية السعودية", "تشاد"]], ["تقع مدينة إدفو في محافظة:", ["أسوان", "قنا", "الأقصر", "سوهاج"]], ["وقعت نكسة يونيو عام:", ["1967", "1956", "1973", "1948"]], ["من النتائج المترتبة على انتصار مصر في حرب أكتوبر 1973:", ["استعادة الثقة وبدء مسار استرداد سيناء", "فقدان سيناء", "تراجع دور الجيش", "إغلاق قناة السويس نهائيًا"]], ["الملك الذي تنازل عن العرش في يوليو 1952:", ["فاروق", "فؤاد", "فاروق الثاني", "أحمد فؤاد"]], ["أكثر الدول الأفريقية سكانًا:", ["نيجيريا", "مصر", "إثيوبيا", "جنوب أفريقيا"]], ["عاصمة الهند:", ["نيودلهي", "مومباي", "كلكتا", "كراتشي"]], ["عدد حجرات القلب البشري:", ["4", "2", "3", "5"]], ["الفيتامين اللازم لتجلط الدم:", ["فيتامين ك", "فيتامين ج", "فيتامين د", "فيتامين أ"]], ["مؤلف «ثلاثية القاهرة»:", ["نجيب محفوظ", "طه حسين", "يوسف إدريس", "إحسان عبد القدوس"]]]];
+var EXPL=[["البنك المركزي هو الجهة الوحيدة المخوّلة بإصدار النقد وإدارة السياسة النقدية.", "يحدد البنك المركزي أسعار الفائدة الرئيسية للتأثير في الاقتراض والادخار والتضخم.", "يشمل منع الاختراق وسرقة البيانات وتعطيل الخدمات.", "تنفذها شركة روساتوم الروسية في الضبعة بمحافظة مطروح.", "تطل على محافظات بورسعيد ودمياط والدقهلية والشرقية.", "مدينة السادات جديدة تتبع محافظة المنوفية.", "تقع عند طرف سيناء الجنوبي ومشهورة بالشعاب المرجانية.", "قادها نابليون بونابرت ووصلت الإسكندرية في يوليو 1798.", "عقب اتفاقيتي كامب ديفيد 1978.", "اندلعت في 25 يناير 2011.", "مسقط هي العاصمة وأكبر المدن.", "جرينلاند جزيرة تتبع مملكة الدنمارك.", "الشمس نجم، والقمر تابع للأرض وليس نجمًا.", "عظمة الفخذ أطول وأقوى عظام الجسم.", "ارتبط بصدور قانون الإصلاح الزراعي عام 1952."], ["الشمول المالي يهدف إلى وصول الجميع للخدمات المصرفية والمدفوعات الرقمية.", "في البورصة يشتري المستثمرون الأوراق المالية ويبيعونها.", "لا تضغط على روابط مجهولة ولا تعط بياناتك لجهة غير موثوقة.", "اليورانيوم هو الوقود الأساسي للمفاعلات النووية.", "واحة البحرية تتبع محافظة الجيزة في الصحراء الغربية.", "مدينة جديدة شرق القاهرة تتبع محافظة القاهرة إداريًا.", "دهب مدينة سياحية على خليج العقبة بجنوب سيناء.", "اكتشفه ضباط الحملة الفرنسية قرب رشيد.", "عادت طابا بالتحكيم الدولي في مارس 1989.", "اندلعت في 30 يونيو 2013.", "صنعاء هي العاصمة الرسمية.", "أصبح العدد 27 بعد خروج بريطانيا.", "حلقات زحل أشهر حلقات المجموعة الشمسية.", "ينقل الهيموجلوبين الأكسجين في الدم.", "يُحتفل به في ذكرى تأسيس منظمة الصحة العالمية."], ["يقيس حجم النشاط الاقتصادي داخل حدود الدولة عادة خلال سنة.", "تمثل هذه المصادر موارد رئيسية من العملة الأجنبية للاقتصاد المصري.", "التنوع والطول يصعّبان تخمين كلمة المرور.", "فيها من أكبر مزارع الرياح في مصر على ساحل خليج السويس.", "الداخلة والخارجة والفرافرة من واحات الوادي الجديد.", "على ساحل خليج السويس وبها ميناء مهم.", "القناة تفصل سيناء (آسيا) عن باقي مصر.", "اندلعت بعد نفي سعد زغلول ورفاقه.", "اقتُحم خط بارليف على الضفة الشرقية للقناة.", "صدر دستور 1923 بعد إعلان استقلال مصر عام 1922.", "أديس أبابا هي العاصمة.", "ينخفض البحر الميت نحو 430 مترًا تحت سطح البحر.", "Fe من الاسم اللاتيني Ferrum.", "يحتاج الصوت إلى وسط مادي لينتقل.", "أقرته الأمم المتحدة يوم 24 يناير."], ["الميزان التجاري يقارن ما تبيعه الدولة للخارج بما تشتريه منه.", "كلما زاد الادخار زادت موارد التمويل والاستثمار.", "مثل التعلم والتحليل والتعرف على الصور والكلام.", "السد مقام في إثيوبيا قرب الحدود السودانية.", "هو من أعمق المنخفضات في مصر ويقع غرب البلاد.", "برج العرب مدينة صناعية وبها مطار دولي بالإسكندرية.", "الطور عاصمة المحافظة وشرم الشيخ أشهر مدنها السياحية.", "شاركت فيه بريطانيا وفرنسا وإسرائيل بعد تأميم قناة السويس.", "سُميت عملية بدر في 6 أكتوبر 1973.", "افتتحها الخديوي إسماعيل ضمن احتفالات افتتاح قناة السويس.", "يقع المقر الرئيسي للاتحاد في أديس أبابا.", "الفولغا في روسيا هو الأطول في القارة.", "كلوريد الصوديوم هو ملح الطعام.", "الصدأ أكسدة الحديد في وجود الماء والأكسجين.", "يوافق ذكرى اعتماد اتفاقية حقوق الطفل."], ["العجز يعني أن قيمة ما تستورده الدولة أكبر مما تصدره.", "الهجرة الداخلية تزيد الطلب على السكن والمرافق في المدن.", "له حجية قانونية في مصر وفق قانون التوقيع الإلكتروني.", "أنشاص بالشرقية مقر أول مفاعل بحثي مصري.", "مدينة جديدة غرب القاهرة تتبع محافظة الجيزة.", "ميناء سفاجا بمحافظة البحر الأحمر.", "العريش عاصمة محافظة شمال سيناء على المتوسط.", "تكونت بها الجمهورية العربية المتحدة.", "كان أنور السادات القائد الأعلى للقوات المسلحة وقت الحرب.", "18 يونيو 1956 أُتمّ جلاء القوات البريطانية.", "المقر الرئيسي للمنظمة في جنيف بسويسرا.", "بكين هي العاصمة السياسية للصين.", "صفر درجة مئوية عند الضغط الجوي المعتاد.", "يفرزه البنكرياس ونقصه يسبب مرض السكري.", "أم كلثوم من أشهر مطربات العالم العربي."], ["هي ضريبة غير مباشرة يتحملها المستهلك النهائي عند شراء السلع والخدمات.", "الوديعة تحفظ أموال العميل ويحصل بها على عائد معلوم.", "هي إحدى وسائل الدفع الرقمي لدعم الشمول المالي.", "المصادر المتجددة تتجدد باستمرار ولا تنفد.", "من المدن الصناعية الكبرى في مصر وتتبع الشرقية.", "تجاور مصر برًا ليبيا والسودان وفلسطين، أما الأردن والسعودية فحدودهما بحرية.", "بها معبد حورس الشهير وتتبع أسوان.", "حدثت في 5 يونيو 1967.", "أعاد النصر الثقة بالقوات المسلحة ومهّد لاسترداد سيناء.", "تنازل الملك فاروق لابنه أحمد فؤاد وغادر البلاد.", "نيجيريا أكبر دول القارة في عدد السكان.", "نيودلهي هي العاصمة الرسمية للهند.", "أذينان وبطينان.", "يساعد فيتامين ك على تخثر الدم.", "الثلاثية: بين القصرين وقصر الشوق والسكرية."]];
+/*ENDDATA*/
+</script>
+
+<script>
+(function(){
+var LET=["أ","ب","ج","د"];
+var NAMES=["الأول","الثاني","الثالث","الرابع","الخامس","السادس","السابع","الثامن","التاسع","العاشر","الحادي عشر","الثاني عشر"];
+var TOTAL_MS=150*1000;
+var st=null,timerId=null,filter="all";
+function $(id){return document.getElementById(id)}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function bestGet(){try{return JSON.parse(localStorage.getItem("bsata_best_x")||"{}")}catch(e){return {}}}
+function bestSet(m,s){try{var b=bestGet();if(b[m]==null||s>b[m]){b[m]=s;localStorage.setItem("bsata_best_x",JSON.stringify(b))}}catch(e){}}
+function wm(){var s="";for(var i=0;i<15;i++)s+="<span>ببساطة</span>";return '<div class="wm" aria-hidden="true">'+s+'</div>'}
+function show(id){["home","exam","result"].forEach(function(k){$(k).hidden=(k!==id)});window.scrollTo(0,0)}
+function mmss(ms){var s=Math.ceil(ms/1000);return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+
+/* ---------- home ---------- */
+function renderTiles(){
+  var b=bestGet(),h="";
+  MODELS.forEach(function(m,i){
+    h+='<button class="tile" type="button" data-m="'+i+'"><span class="num">'+(i+1)+'</span><span class="tn">النموذج '+NAMES[i]+'</span><span class="tm">'+m.length+' سؤالًا · دقيقتان ونصف</span><span class="best">'+(b[i]!=null?'أفضل نتيجة: '+b[i]+' / '+m.length:'')+'</span><span class="go">ابدأ الاختبار</span></button>';
+  });
+  $("tiles").innerHTML=h;
+}
+$("tiles").addEventListener("click",function(e){var t=e.target.closest(".tile");if(t)start(+t.getAttribute("data-m"))});
+
+/* ---------- exam ---------- */
+function start(m){
+  var items=MODELS[m].map(function(r,j){
+    return {q:r[0],note:(EXPL[m]&&EXPL[m][j])||r[3]||"",opts:shuffle(r[1].map(function(t,k){return k===0?{t:t,ok:true}:{t:t}}))};
+  });
+  var now=Date.now();
+  st={instant:$("instantToggle").checked,id:now,m:m,items:items,ans:items.map(function(){return -1}),cur:0,start:now,end:now+TOTAL_MS,done:false};
+  clearInterval(timerId);timerId=setInterval(tick,250);
+  $("examTitle").textContent="النموذج "+NAMES[m];
+  var g="";for(var i=0;i<items.length;i++)g+='<button class="chip" type="button" data-n="'+i+'" aria-label="السؤال '+(i+1)+'">'+(i+1)+'</button>';
+  $("navgrid").innerHTML=g;
+  try{localStorage.setItem("bsata_instant",st.instant?"1":"0")}catch(e){}
+  $("autoLbl").hidden=st.instant;
+  show("exam");renderQ();tick();
+}
+function tick(){
+  if(!st||st.done)return;
+  var left=Math.max(0,st.end-Date.now());
+  $("timer").textContent=mmss(left);
+  $("tfill").style.width=(left/TOTAL_MS*100)+"%";
+  var w=left<=60000;
+  $("timerBox").classList.toggle("warn",w);$("xbar").classList.toggle("warn",w);
+  if(left<=0)finish(true);
+}
+function renderQ(){
+  var n=st.cur,it=st.items[n],h="";
+  var a=st.ans[n],lock=st.instant&&a>=0;
+  it.opts.forEach(function(o,i){
+    var cls="opt",mk="";
+    if(lock){cls+=" lock";if(o.ok){cls+=" ok";mk='<span class="mk">الصحيحة</span>'}else if(i===a){cls+=" no";mk='<span class="mk">إجابتك</span>'}}
+    h+='<button class="'+cls+'" type="button" data-i="'+i+'" aria-pressed="'+(a===i)+'"><span class="let">'+LET[i]+'</span><span class="ot">'+o.t+'</span>'+mk+'</button>';
+  });
+  var ex="";
+  if(lock){
+    var good=it.opts[a].ok,right="";
+    it.opts.forEach(function(o){if(o.ok)right=o.t});
+    ex='<div class="expl '+(good?'ok':'no')+'" role="status"><b>'+(good?'إجابة صحيحة':'إجابة خاطئة')+'</b><p>'+(good?'':'الإجابة الصحيحة: '+right+'. ')+it.note+'</p></div>';
+  }
+  $("qcard").innerHTML=wm()+'<div class="in"><span class="qno">سؤال '+(n+1)+' من '+st.items.length+'</span><h2 class="qt">'+it.q+'</h2><div class="opts">'+h+'</div>'+ex+'</div>';
+  $("prev").disabled=(n===0);$("next").disabled=(n===st.items.length-1);
+  updateNav();
+}
+function updateNav(){
+  var c=$("navgrid").children;
+  for(var i=0;i<c.length;i++){var ans=st.ans[i]>=0,ok=ans&&st.items[i].opts[st.ans[i]].ok;
+    c[i].classList.toggle("done",ans&&i!==st.cur&&!st.instant);
+    c[i].classList.toggle("ok",st.instant&&ans&&ok);c[i].classList.toggle("bad",st.instant&&ans&&!ok);
+    c[i].classList.toggle("cur",i===st.cur)}
+}
+function go(n){if(!st||st.done)return;if(n<0||n>=st.items.length)return;st.cur=n;renderQ()}
+function pick(i){
+  if(!st||st.done)return;
+  if(st.instant&&st.ans[st.cur]>=0)return;
+  st.ans[st.cur]=i;renderQ();
+  if(st.instant){var ex=document.querySelector(".expl");if(ex&&ex.scrollIntoView)ex.scrollIntoView({block:"nearest",behavior:"smooth"});return}
+  if($("autoToggle").checked&&st.cur<st.items.length-1){
+    var at=st.cur,id=st.id;
+    setTimeout(function(){if(st&&st.id===id&&!st.done&&st.cur===at)go(at+1)},280);
+  }
+}
+$("qcard").addEventListener("click",function(e){var o=e.target.closest(".opt");if(o)pick(+o.getAttribute("data-i"))});
+$("navgrid").addEventListener("click",function(e){var c=e.target.closest(".chip");if(c)go(+c.getAttribute("data-n"))});
+$("prev").addEventListener("click",function(){go(st.cur-1)});
+$("next").addEventListener("click",function(){go(st.cur+1)});
+document.addEventListener("keydown",function(e){
+  if(!st||st.done||$("exam").hidden||!$("modal").hidden)return;
+  if(e.key>="1"&&e.key<="4"){pick(+e.key-1)}
+  else if(e.key==="ArrowLeft"){go(st.cur+1)}
+  else if(e.key==="ArrowRight"){go(st.cur-1)}
+});
+
+/* ---------- finish ---------- */
+$("finishBtn").addEventListener("click",function(){
+  var un=st.ans.filter(function(a){return a<0}).length;
+  $("mMsg").textContent=un>0?"لم تجب عن "+un+" سؤالًا بعد. بعد الإنهاء لن تتمكن من تعديل إجاباتك.":"أجبت عن كل الأسئلة. بعد الإنهاء لن تتمكن من تعديل إجاباتك.";
+  $("modal").hidden=false;
+});
+$("mBack").addEventListener("click",function(){$("modal").hidden=true});
+$("mOk").addEventListener("click",function(){finish(false)});
+function finish(timeout){
+  if(!st||st.done)return;
+  st.done=true;clearInterval(timerId);$("modal").hidden=true;
+  var ok=0,bad=0,skip=0;
+  st.items.forEach(function(it,i){var a=st.ans[i];if(a<0)skip++;else if(it.opts[a].ok)ok++;else bad++});
+  st.res={ok:ok,bad:bad,skip:skip,used:Math.min(TOTAL_MS,Date.now()-st.start),timeout:timeout};
+  bestSet(st.m,ok);renderTiles();renderResult();show("result");
+}
+
+/* ---------- result ---------- */
+function rating(p){
+  if(p>=90)return["ممتاز","أداء رائع. حافظ على هذا المستوى وجرّب النماذج الأخرى."];
+  if(p>=75)return["جيد جدًا","مستوى قوي. راجع الأسئلة الخاطئة لتثبيت النقاط المتبقية."];
+  if(p>=60)return["جيد","مستوى جيد. راجع الأسئلة الخاطئة وأعد المحاولة لتحسين النتيجة."];
+  if(p>=50)return["مقبول","تحتاج إلى مزيد من المراجعة. ابدأ بمراجعة الإجابات أدناه."];
+  return["يحتاج إلى مراجعة","لا تقلق. راجع الإجابات الصحيحة أدناه ثم أعد النموذج."];
+}
+function renderResult(){
+  var r=st.res,total=st.items.length,p=Math.round(r.ok/total*100),rt=rating(p);
+  $("resTitle").textContent="النموذج "+NAMES[st.m]+(r.timeout?" · انتهى الوقت":"");
+  $("resScore").textContent=r.ok;$("resTotal").textContent=total;
+  $("resRate").textContent=rt[0]+" · "+p+"%";
+  $("resNote").textContent=rt[1];
+  $("resStats").innerHTML='<div class="stat g"><b>'+r.ok+'</b><span>إجابات صحيحة</span></div><div class="stat r"><b>'+r.bad+'</b><span>إجابات خاطئة</span></div><div class="stat y"><b>'+r.skip+'</b><span>بدون إجابة</span></div><div class="stat"><b>'+mmss(r.used)+'</b><span>الزمن المستغرق</span></div>';
+  filter="all";renderReview();
+}
+function renderReview(){
+  var h="";
+  st.items.forEach(function(it,i){
+    var a=st.ans[i],state=a<0?"skip":(it.opts[a].ok?"ok":"bad");
+    if(filter==="bad"&&state!=="bad")return;
+    if(filter==="skip"&&state!=="skip")return;
+    var o="";
+    it.opts.forEach(function(op,k){
+      var cls="ro",tag="";
+      if(op.ok){cls+=" right";tag='<span class="tag g">الإجابة الصحيحة</span>'}
+      else if(k===a){cls+=" wrong";tag='<span class="tag r">إجابتك</span>'}
+      o+='<div class="'+cls+'"><span class="rt">'+LET[k]+') '+op.t+'</span>'+tag+'</div>';
+    });
+    h+='<article class="slab rev '+state+'">'+wm()+'<div class="in"><div class="rq"><span class="rn">'+(i+1)+'</span><span>'+it.q+'</span></div><div class="ros">'+o+'</div>'+(it.note?'<p class="exp"><b>الشرح: </b>'+it.note+'</p>':'')+'</div></article>';
+  });
+  $("review").innerHTML=h||'<div class="slab rev"><div class="in">لا توجد أسئلة في هذا التصنيف.</div></div>';
+  var f=$("filters").children;
+  for(var i=0;i<f.length;i++){f[i].setAttribute("aria-pressed",f[i].getAttribute("data-f")===filter)}
+}
+$("filters").addEventListener("click",function(e){var b=e.target.closest("button");if(b){filter=b.getAttribute("data-f");renderReview()}});
+$("retry").addEventListener("click",function(){start(st.m)});
+$("toHome").addEventListener("click",function(){st=null;show("home")});
+
+/* ---------- misc ---------- */
+$("cpBtn").addEventListener("click",function(){
+  var btn=this,ok=function(){btn.textContent="تم النسخ";setTimeout(function(){btn.textContent="نسخ الرقم"},1600)};
+  try{navigator.clipboard.writeText("01505191893").then(ok,function(){})}catch(e){}
+});
+try{if(localStorage.getItem("bsata_instant")==="0")$("instantToggle").checked=false}catch(e){}
+renderTiles();
+})();
+</script>
+
+</body>
+</html>
